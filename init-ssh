@@ -1,9 +1,9 @@
-#!/bin/sh
-
-set -e
+#!/bin/bash
 
 if [ -z "$SSH_PRIVATE_KEY" ]; then >&2 echo "Set SSH_PRIVATE_KEY environment variable"; exit 1; fi
 
-eval $(ssh-agent -s)
+eval $(ssh-agent)
+
 [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-ssh-add <(echo "SSH_PRIVATE_KEY")
+
+ssh-add <(echo "$SSH_PRIVATE_KEY")

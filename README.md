@@ -27,7 +27,7 @@ deploy_to_production:
   only:
     - master
   script: 
-    - init-ssh
+    - source /init-ssh
     - envoy run production
 ```
 
@@ -43,7 +43,7 @@ deploy_to_production:
   only:
     - master
   script: 
-    - init-ssh
+    - source /init-ssh
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git clone my_repo
