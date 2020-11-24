@@ -44,6 +44,8 @@ deploy_to_production:
     - master
   script: 
     - init-ssh
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    - git config --global user.name "${GITLAB_USER_NAME}"
     - git clone my_repo
     - co my_repo
     - git push origin master
