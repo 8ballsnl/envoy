@@ -4,6 +4,7 @@ Deployment helpers
 ## Features
 * Laravel Envoy
 * git
+* rsync
 
 ## Usage
 
@@ -27,7 +28,7 @@ deploy_to_production:
   only:
     - master
   script: 
-    - source /init-ssh
+    - source init-ssh
     - envoy run production
 ```
 
@@ -43,10 +44,29 @@ deploy_to_production:
   only:
     - master
   script: 
-    - source /init-ssh
+    - source init-ssh
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git clone my_repo
     - co my_repo
     - git push origin master
+```
+
+#### GitLab CI / rsync + ssh
+
+create project variables```DEPLOY_PATH``` in form ```user@host:/deploy_directory```
+
+```
+image: robjuz/envoy
+
+stages:
+  - deploy
+
+deploy_to_production:
+  stage: deploy
+  only:
+    - master
+  script: 
+    - source init-ssh
+    - rsync -rav --omit-dir-times --no-o --no-g --no-perms -e ssh ./dist $DEPLOY_PATH
 ```
