@@ -28,7 +28,8 @@ deploy_to_production:
   only:
     - master
   script: 
-    - source init-ssh
+    - eval $(ssh-agent)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - envoy run production
 ```
 
@@ -44,9 +45,10 @@ deploy_to_production:
   only:
     - master
   script: 
-    - source init-ssh
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git config --global user.name "${GITLAB_USER_NAME}"
+    - eval $(ssh-agent)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - git clone my_repo
     - co my_repo
     - git push origin master
@@ -67,6 +69,7 @@ deploy_to_production:
   only:
     - master
   script: 
-    - source init-ssh
+    - eval $(ssh-agent)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - rsync -rav --omit-dir-times --no-o --no-g --no-perms -e ssh ./dist $DEPLOY_PATH
 ```
