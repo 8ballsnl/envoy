@@ -1,4 +1,4 @@
-FROM php:7.4-alpine
+FROM php:8.0-alpine
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 RUN mkdir -p ~/.ssh;
 RUN apk add --no-cache openssh-client bash git rsync
